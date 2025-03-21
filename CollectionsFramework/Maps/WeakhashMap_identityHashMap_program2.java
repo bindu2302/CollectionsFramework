@@ -1,71 +1,51 @@
 package Maps;
 
-import java.util.*;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.WeakHashMap;
 
 public class WeakhashMap_identityHashMap_program2 {
     public static void main(String[] args) {
-    	Scanner sc = new Scanner(System.in);
-        Map<Integer, String> identityMap = new HashMap<>();
-
-        System.out.print("Enter the number of tokens: ");
-        int tokenCount = sc.nextInt();
-        sc.nextLine(); // Consume newline
-
-        for (int i = 0; i < tokenCount; i++) {
-            int tokenID = sc.nextInt();
-            String tokenName = sc.next();
-            identityMap.put(tokenID, tokenName);
-            System.out.println("Added token: " + tokenID + " -> " + tokenName);
-        }
-
-        System.out.print("Enter a token ID to check: ");
-        int checkID = sc.nextInt();
-        System.out.println("Token " + checkID + " exists: " + identityMap.containsKey(checkID));
-
-        System.out.println("All Active Session Tokens:");
-        for (Map.Entry<Integer, String> entry : identityMap.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
-        }
-
-        // ✅ Fixed: Only ask for user count once
-        int userCount;
-        while (true) {
-            System.out.print("Enter the number of users: ");
-            if (sc.hasNextInt()) {
-                userCount = sc.nextInt();
-                sc.nextLine(); // Consume newline
-                break;
-            } else {
-                System.out.println("Invalid input! Please enter a valid integer.");
-                sc.next(); // Discard invalid input
-            }
-        }
-
-        // ✅ Store only last two users for comparison
-        int lastID1 = -1, lastID2 = -1;
-        String lastUser1 = "", lastUser2 = "";
-
-        for (int i = 0; i < userCount; i++) {
-            int userID = sc.nextInt();
-            String userName = sc.next();
-            identityMap.put(userID, userName);
-            System.out.println("Added user: " + userID + " -> " + userName);
-
-            // ✅ Store last two users for comparison
-            if (i == userCount - 2) {
-                lastID1 = userID;
-                lastUser1 = userName;
-            }
-            if (i == userCount - 1) {
-                lastID2 = userID;
-                lastUser2 = userName;
-            }
-        }
-
-        // ✅ Print only the final comparison result
-        boolean areIdentical = lastUser1.equals(lastUser2);
-        System.out.println("Are the two users with the same data identical? " + areIdentical);
-
-        sc.close(); // Close scanner
+    	 Scanner sc = new Scanner(System.in);
+    	 WeakHashMap<Integer, String> sessionTokens = new WeakHashMap<>();
+    	 
+    	 int n = sc.nextInt();
+    	 sc.nextLine();
+    	 
+    	 for(int i=0; i<n; i++) {
+    		 int tokenId = sc.nextInt();
+    		 String tokenValue = sc.next();
+    		 sessionTokens.put(tokenId, tokenValue);
+    		 System.out.println("Added Token: " + tokenId + " -> " + tokenValue);
+    	 }
+    	 
+    	 //check if token exists or not 
+    	 System.out.println("Enter a token ID to check:");
+    	 int checkTokenId = sc.nextInt();
+    	 boolean exists = sessionTokens.containsKey(checkTokenId);
+    	 System.out.println("Token " + checkTokenId + " exists: " + exists);
+    	 
+    	 //print all active session tokens
+    	 System.out.println("All Active session Tokens:");
+    	 for(Map.Entry<Integer,String> entry : sessionTokens.entrySet()) {
+    		 System.out.println(entry.getKey() + " -> " + entry.getValue());
+    	 }
+    	 
+    	 
+    	 IdentityHashMap<Integer, String> userIdentityMap = new IdentityHashMap<>();
+    	 System.out.println("Enter the number of users:");
+    	 int m = sc.nextInt();
+    	 sc.nextLine();
+    	 
+    	 for(int i=0; i<m; i++) {
+    		 int userId = sc.nextInt();
+    		 String userName = sc.next();
+    		 userIdentityMap.put(userId, userName);
+    		 System.out.println("Added user: " + userId + " -> " + userName);
+    	 }
+    	 
+    	 System.out.println("Are the two users with the same data identical? " + userIdentityMap.containsKey(1));
+    	 
     }
 }
